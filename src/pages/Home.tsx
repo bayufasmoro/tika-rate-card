@@ -1,6 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
+// Corner Frame Component
+const CornerFrame = ({ position = 'top-left' }: { position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' }) => {
+  const rotationMap = {
+    'top-left': 'rotate-0',
+    'top-right': 'rotate-90',
+    'bottom-right': 'rotate-180',
+    'bottom-left': '-rotate-90',
+  };
+
+  return (
+    <div 
+      className={`absolute z-10 w-40 h-40 ${position.includes('top') ? 'top-0' : 'bottom-0'} ${position.includes('left') ? 'left-0' : 'right-0'}`}
+    >
+      <img 
+        src="/corner-frame-gold.png" 
+        alt="" 
+        className={`w-full h-full object-contain ${rotationMap[position]}`}
+      />      
+    </div>
+  );
+};
+
 // Add this CSS for fullpage scroll
 const fullpageStyles = `
   html, body {
@@ -308,7 +330,7 @@ const Section = ({ id, title, children, className = '', style = {} }: {
 
 const Home: React.FC = () => {
   const [currentSection, setCurrentSection] = useState(0);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [showPlayButton, setShowPlayButton] = useState(true);
   const audioRef = useRef<HTMLAudioElement>(null);
   const sections = ['home', 'about', 'photography', 'videography', 'social', 'insights', 'collaborations', 'services', 'terms'];
@@ -415,7 +437,7 @@ const Home: React.FC = () => {
   const audioElement = (
     <audio 
       ref={audioRef}
-      src="/whiplash.mp3" 
+      src="/beauty-bg-audio.mp3" 
       loop 
       preload="auto"
       muted={isMuted}
@@ -490,7 +512,7 @@ const Home: React.FC = () => {
             {/* Profile Image */}
             <div className="relative z-10 w-48 h-48 rounded-full overflow-hidden border-4 border-white shadow-xl">
               <img 
-                src="https://dk2dv4ezy246u.cloudfront.net/widgets/sSoOLu6xKUi_large.jpg"
+                src="/profile-pfp.jpeg"
                 // src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"                
                 alt="Profile" 
                 className="w-full h-full object-cover"
@@ -498,7 +520,7 @@ const Home: React.FC = () => {
             </div>
             {/* Floral Circle Background */}
             <div className="absolute inset-0 z-10 flex items-center justify-center">
-              <img 
+              <img               
                 src="/floral-circle-purple.png" 
                 alt="" 
                 className="w-full h-full max-w-[280px] max-h-[280px] object-contain"
@@ -556,7 +578,7 @@ const Home: React.FC = () => {
           {/* Image Side - Full Height */}
           <div className="w-full md:w-1/2 h-full relative">
             <img 
-              src="https://preview.redd.it/240626-winter-for-mise-en-sc%C3%A9ne-v0-zbh1fuyyfu8d1.jpg?width=1080&crop=smart&auto=webp&s=05a4038f8d50304557af975c9c06b2478a30003e"
+              src="/profile-about-me.jpeg"
               // src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" 
               alt="About Me" 
               className="w-full h-full object-cover rounded-xl"
@@ -652,8 +674,12 @@ const Home: React.FC = () => {
                 <img 
                   src={photos[0].src} 
                   alt={photos[0].title} 
-                  className="w-full h-[60vh] object-cover transform group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-[60vh] object-cover transform group-hover:scale-105 transition-transform duration-700 relative"
                 />
+                <CornerFrame position="top-left" />
+                <CornerFrame position="top-right" />
+                <CornerFrame position="bottom-left" />
+                <CornerFrame position="bottom-right" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                   <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                     <h3 className="text-2xl font-bold text-white mb-2">{photos[0].title}</h3>
@@ -669,8 +695,12 @@ const Home: React.FC = () => {
                     <img 
                       src={photo.src} 
                       alt={photo.title} 
-                      className="w-full h-[40vh] object-cover transform group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-[40vh] object-cover transform group-hover:scale-105 transition-transform duration-700 relative"
                     />
+                    <CornerFrame position="top-left" />
+                    <CornerFrame position="top-right" />
+                    <CornerFrame position="bottom-left" />
+                    <CornerFrame position="bottom-right" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                       <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                         <h3 className="text-xl font-bold text-white mb-2">{photo.title}</h3>
