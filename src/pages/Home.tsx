@@ -144,7 +144,7 @@ const photos = [
 const videos = [
   { 
     id: 1, 
-    videoUrl: 'https://www.youtube.com/shorts/Ssg2LaYnrMI?feature=share',
+    videoUrl: 'https://cdn.pixabay.com/video/2024/10/13/236257_large.mp4',
     thumbnail: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80' 
   },
   { 
@@ -288,13 +288,14 @@ const terms = [
   'Max pembayaran H+1 sesudah di video di upload',
 ];
 
-const Section = ({ id, title, children, className = '' }: { 
+const Section = ({ id, title, children, className = '', style = {} }: { 
   id: string; 
   title?: string; 
   children: React.ReactNode; 
-  className?: string 
+  className?: string;
+  style?: React.CSSProperties;
 }) => (
-  <section id={id} className={`py-16 px-4 ${className}`}>
+  <section id={id} className={`py-16 px-4 ${className}`} style={style}>
     <div className="max-w-4xl mx-auto">
       {title && <h2 className="text-3xl font-bold text-lilac-600 mb-8 text-center">{title}</h2>}
       {/* <div className="bg-white rounded-2xl shadow-lg p-8"> */}
@@ -414,7 +415,7 @@ const Home: React.FC = () => {
   const audioElement = (
     <audio 
       ref={audioRef}
-      src="/beauty-bg-audio.mp3" 
+      src="/whiplash.mp3" 
       loop 
       preload="auto"
       muted={isMuted}
@@ -519,6 +520,15 @@ const Home: React.FC = () => {
 
       {/* About Me */}
       <Section id="about" className="section !p-0 bg-[#f9f7ff] relative">
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: 'url("/kuromi-skull-pattern.png")',
+            backgroundRepeat: 'repeat',
+            backgroundSize: '200px',
+            opacity: '0.2'
+          }}
+        />
         {/* Top Floral Border */}
         <div 
           className="w-screen left-1/2 -translate-x-1/2 relative overflow-hidden"
@@ -715,8 +725,18 @@ const Home: React.FC = () => {
       </Section>
 
       {/* Social Media Section */}
-      <Section id="social" title="Social Media" className="section bg-lilac-50">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <Section id="social" title="Social Media" className="section relative bg-lilac-50">
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: 'url(\"/kuromi-skull-pattern.png\")',
+            backgroundRepeat: 'repeat',
+            backgroundSize: '200px',
+            opacity: '0.2'
+          }}
+        />
+        <div className="relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* TikTok Profile Card */}
           <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-[1.02]">
             <div className="bg-black p-4 text-center relative">
@@ -775,6 +795,7 @@ const Home: React.FC = () => {
               </a>
             </div>
           </div>
+        </div>
         </div>
       </Section>
 
@@ -837,6 +858,16 @@ const Home: React.FC = () => {
 
       {/* Previous Collaborations */}
       <Section id="collaborations" title="Previous Collaborations" className="section bg-lilac-50">
+      <div 
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: 'url(\"/kuromi-skull-pattern.png\")',
+            backgroundRepeat: 'repeat',
+            backgroundSize: '200px',
+            opacity: '0.2'
+          }}
+        />
+        <div className="relative z-10">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 p-4">
             {collaborations.map((brand, index) => (
@@ -853,12 +884,13 @@ const Home: React.FC = () => {
               </div>
             ))}
           </div>
-          <div className="text-center mt-8">
+          {/* <div className="text-center mt-8">
             <p className="text-gray-600 mb-4">Dan masih banyak brand lainnya...</p>
             <button className="px-6 py-2 bg-lilac-600 text-white rounded-full hover:bg-lilac-700 transition-colors">
               Lihat Semua Kolaborasi
             </button>
-          </div>
+          </div> */}
+        </div>
         </div>
       </Section>
 
@@ -896,23 +928,36 @@ const Home: React.FC = () => {
 
       {/* Terms & Conditions */}
       <Section id="terms" title="Terms & Conditions" className="section bg-lilac-50">
-        <div className="prose max-w-none">
-          <ul className="space-y-3">
-            {terms.map((term, index) => (
-              <li key={index} className="flex items-start">
-                <svg className="w-5 h-5 text-lilac-600 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div 
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: 'url(\"/kuromi-skull-pattern.png\")',
+            backgroundRepeat: 'repeat',
+            backgroundSize: '200px',
+            opacity: '0.2'
+          }}
+        />
+        <div className="relative z-10">
+        <div className="bg-white rounded-2xl shadow-lg p-8">
+          <div className="prose max-w-none">
+            <ul className="space-y-3">
+              {terms.map((term, index) => (
+                <li key={index} className="flex items-start">
+                  <svg className="w-5 h-5 text-lilac-600 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span>{term}</span>
               </li>
             ))}
           </ul>
-          <div className="mt-8 p-4 bg-lilac-100 rounded-lg">
+          {/* <div className="mt-8 p-4 bg-lilac-100 rounded-lg">
             <p className="text-lilac-800">              
               <span className="font-semibold">Note:</span> Semua paket dapat disesuaikan dengan kebutuhan spesifik Anda. 
               <Link to="/contact" className="text-lilac-600 hover:underline ml-1">Hubungi saya</Link> untuk mendiskusikan proyek Anda!
             </p>
-          </div>
+          </div> */}
+          </div>  
+        </div>
         </div>
       </Section>
     </div>
