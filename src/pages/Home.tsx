@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import WhatsAppButton from '../components/WhatsAppButton';
 import { Link } from 'react-router-dom';
 
 // Corner Frame Component
@@ -163,37 +164,47 @@ const photos = [
   { id: 3, src: '/photo-2.jpeg', title: 'Fashion Editorial' },
 ];
 
+// Define the video type
+interface VideoItem {
+  id: number;
+  videoUrl: string;
+  thumbnail: string;
+  playing: boolean;
+}
+
+// Initialize videos with playing state
+// Video data with direct paths to files in public directory
 const videos = [
   { 
     id: 1, 
-    videoUrl: 'https://cdn.pixabay.com/video/2024/10/13/236257_large.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80' 
+    videoUrl: '/video-1.mp4',
+    thumbnail: '/video-1-preview.png'
   },
   { 
     id: 2, 
-    videoUrl: 'https://cdn.pixabay.com/video/2025/05/21/280605_large.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1526947425960-945c6e72858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80' 
+    videoUrl: '/video-2.mp4',
+    thumbnail: '/video-2-preview.png'
   },
   { 
     id: 3, 
-    videoUrl: 'https://cdn.pixabay.com/video/2023/08/31/178472-859955927_large.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80' 
+    videoUrl: '/video-3.mp4',
+    thumbnail: '/video-3-preview.png'
   },
   { 
     id: 4, 
-    videoUrl: 'https://cdn.pixabay.com/video/2025/05/21/280605_large.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80' 
+    videoUrl: '/video-4.mp4',
+    thumbnail: '/video-4-preview.png'
   },
   { 
     id: 5, 
-    videoUrl: 'https://cdn.pixabay.com/video/2023/08/31/178472-859955927_large.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80' 
+    videoUrl: '/video-5.mp4',
+    thumbnail: '/video-5-preview.png'
   },
   { 
     id: 6, 
-    videoUrl: 'https://cdn.pixabay.com/video/2024/10/13/236257_large.mp4',
-    thumbnail: 'https://images.unsplash.com/photo-1522337360788-8b13de2417e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80' 
-  },
+    videoUrl: '/video-6.mp4',
+    thumbnail: '/video-6-preview.png'
+  }
 ];
 
 const socialMedia = [
@@ -238,34 +249,49 @@ const insights = [
 
 const collaborations = [
   { 
-    company: 'HMNS', 
-    logo: 'https://media.licdn.com/dms/image/v2/C560BAQGl63zL0rrKPQ/company-logo_200_200/company-logo_200_200/0/1630659791162?e=2147483647&v=beta&t=IptEpnyOmNNLQHfEk6l8BNTb46cHIH4htACUI59EMQQ',
-    alt: 'HMNS Logo'
+    company: 'Brand 1', 
+    logo: '/collab-1.png',
+    alt: 'Brand 1 Logo'
   },
   { 
-    company: 'Mykonos', 
-    logo: 'https://www.static-src.com/wcsstore/Indraprastha/images/brandlogo//BRD-26057/mykonos-logo.jpg',
-    alt: 'Mykonos Logo'
+    company: 'Brand 2', 
+    logo: '/collab-2.png',
+    alt: 'Brand 2 Logo'
   },
   { 
-    company: 'Bali Surfer', 
-    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGgnM5Je_3xk6hDy5WvO5GkBjdSlHW5ZOG2g&s',
-    alt: 'Bali Surfer Logo'
+    company: 'Brand 3', 
+    logo: '/collab-3.png',
+    alt: 'Brand 3 Logo'
   },
   { 
-    company: 'Saff & Co', 
-    logo: 'https://down-id.img.susercontent.com/file/id-11134216-7r98v-lmcn30b5z7v046',
-    alt: 'Saff & Co Logo'
+    company: 'Brand 4', 
+    logo: '/collab-4.png',
+    alt: 'Brand 4 Logo'
   },
   { 
-    company: 'Evangeline', 
-    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6J7KfthbQn2TK7O2eD4eqUMKUa-roxweIAg&s',
-    alt: 'Evangeline Logo'
+    company: 'Brand 5', 
+    logo: '/collab-5.png',
+    alt: 'Brand 5 Logo'
   },
   { 
-    company: 'Kahf', 
-    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFqS_a8QEWSgzqS5-ri0-oUVmp6UpjAtkskg&s',
-    alt: 'Kahf Logo'
+    company: 'Brand 6', 
+    logo: '/collab-6.png',
+    alt: 'Brand 6 Logo'
+  },
+  { 
+    company: 'Brand 7', 
+    logo: '/collab-7.png',
+    alt: 'Brand 7 Logo'
+  },
+  { 
+    company: 'Brand 8', 
+    logo: '/collab-8.png',
+    alt: 'Brand 8 Logo'
+  },
+  { 
+    company: 'Brand 9', 
+    logo: '/collab-9.png',
+    alt: 'Brand 9 Logo'
   },
 ];
 
@@ -332,8 +358,17 @@ const Home: React.FC = () => {
   const [currentSection, setCurrentSection] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const [showPlayButton, setShowPlayButton] = useState(true);
+  const [playingVideos, setPlayingVideos] = useState<{[key: number]: boolean}>({});
   const audioRef = useRef<HTMLAudioElement>(null);
   const sections = ['home', 'about', 'photography', 'videography', 'social', 'insights', 'collaborations', 'services', 'terms'];
+
+  const handleVideoPlay = (videoId: number) => {
+    setPlayingVideos(prev => ({...prev, [videoId]: true}));
+  };
+
+  const handleVideoPause = (videoId: number) => {
+    setPlayingVideos(prev => ({...prev, [videoId]: false}));
+  };
 
   // Handle initial audio play on user interaction
   const handleInitialPlay = async () => {
@@ -437,7 +472,7 @@ const Home: React.FC = () => {
   const audioElement = (
     <audio 
       ref={audioRef}
-      src="/beauty-bg-audio.mp3" 
+      src="/kuromi-lilac-music.mp3" 
       loop 
       preload="auto"
       muted={isMuted}
@@ -519,9 +554,9 @@ const Home: React.FC = () => {
               />
             </div>
             {/* Floral Circle Background */}
-            <div className="absolute inset-0 z-10 flex items-center justify-center">
+            <div className="absolute inset-0 z-10 flex items-center justify-center translate-y-1.5 -translate-x-1">
               <img               
-                src="/floral-circle-purple.png" 
+                src="/floral-circle-lilac.png" 
                 alt="" 
                 className="w-full h-full max-w-[280px] max-h-[280px] object-contain"
               />
@@ -530,12 +565,13 @@ const Home: React.FC = () => {
           <h1 className="text-5xl md:text-7xl font-serif font-bold text-lilac-900 mb-6">Mestika Winata</h1>
           <p className="text-2xl text-lilac-600 mb-10 font-serif italic">Beauty Content Creator</p>
           <div className="space-x-6">
-            <a 
-              href="#contact" 
+            <WhatsAppButton 
+              phoneNumber="6289630047405"
+              message=""
               className="inline-block bg-gradient-to-r from-lilac-600 to-lilac-400 hover:from-lilac-700 hover:to-lilac-500 text-white font-medium py-4 px-10 rounded-full transition-all transform hover:scale-105 shadow-lg hover:shadow-lilac-200"
             >
               Hubungi Saya
-            </a>
+            </WhatsAppButton>
           </div>
         </div>
       </section>
@@ -732,21 +768,53 @@ const Home: React.FC = () => {
       
       {/* Videography Section */}
       <Section id="videography" title="Videography" className="section">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 px-2 md:px-0">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 px-2 md:px-0">
           {videos.map((video) => (
             <div key={video.id} className="relative">
-              <div className="relative overflow-hidden rounded-xl bg-black video-container">
+              <div 
+                className="relative overflow-hidden rounded-xl bg-black video-container group"
+                onMouseEnter={(e) => {
+                  const video = e.currentTarget.querySelector('video');
+                  if (video) {
+                    video.play().catch(e => console.log('Autoplay prevented:', e));
+                    handleVideoPlay(parseInt(video.id));
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  const video = e.currentTarget.querySelector('video');
+                  if (video) {
+                    video.pause();
+                    video.currentTime = 0;
+                    handleVideoPause(parseInt(video.id));
+                  }
+                }}
+              >
                 {/* 9:16 Aspect Ratio Container */}
                 <div className="relative pt-[177.78%] w-full">
+                  {/* Video Element */}
                   <video
-                    autoPlay
+                    id={video.id.toString()}
+                    className="absolute top-0 left-0 w-full h-full object-cover"
+                    src={video.videoUrl}
                     loop
                     muted
                     playsInline
-                    controls={false}
-                    className="absolute top-0 left-0 w-full h-full object-cover rounded-xl"
-                    src={video.videoUrl}
+                    preload="none"
+                    poster={video.thumbnail}
+                    onPlay={() => handleVideoPlay(video.id)}
+                    onPause={() => handleVideoPause(video.id)}
                   />
+                  
+                  {/* Play Button */}
+                  <div className={`absolute inset-0 flex items-center justify-center transition-opacity ${
+                    playingVideos[video.id] ? 'opacity-0' : 'opacity-70 group-hover:opacity-100'
+                  }`}>
+                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                      <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -899,16 +967,16 @@ const Home: React.FC = () => {
         />
         <div className="relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 p-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 p-4 max-w-4xl mx-auto">
             {collaborations.map((brand, index) => (
               <div 
                 key={index} 
-                className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow flex items-center justify-center aspect-square"
+                className="flex items-center justify-center aspect-square p-2 hover:opacity-90 transition-opacity"
               >
                 <img 
                   src={brand.logo} 
                   alt={brand.alt}
-                  className="max-h-16 w-auto object-contain"
+                  className="h-full w-full object-contain rounded-full"
                   loading="lazy"
                 />
               </div>
