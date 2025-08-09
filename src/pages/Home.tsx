@@ -20,7 +20,7 @@ const CornerFrame = ({ position = 'top-left' }: { position?: 'top-left' | 'top-r
         alt="" 
         className={`w-full h-full object-contain ${rotationMap[position]}`}
       />      
-    </div>
+    </div>    
   );
 };
 
@@ -716,12 +716,12 @@ const Home: React.FC = () => {
                 <CornerFrame position="top-right" />
                 <CornerFrame position="bottom-left" />
                 <CornerFrame position="bottom-right" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                {/* <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                   <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                     <h3 className="text-2xl font-bold text-white mb-2">{photos[0].title}</h3>
                     <p className="text-lilac-300 text-sm">View project →</p>
                   </div>
-                </div>
+                </div> */}
               </div>
               
               {/* Bottom two images */}
@@ -737,12 +737,12 @@ const Home: React.FC = () => {
                     <CornerFrame position="top-right" />
                     <CornerFrame position="bottom-left" />
                     <CornerFrame position="bottom-right" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    {/* <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                       <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                         <h3 className="text-xl font-bold text-white mb-2">{photo.title}</h3>
                         <p className="text-lilac-300 text-sm">View project →</p>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 ))}
               </div>
@@ -838,7 +838,6 @@ const Home: React.FC = () => {
           {/* TikTok Profile Card */}
           <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-[1.02]">
             <div className="bg-black p-4 text-center relative">
-              {/* <div className="absolute inset-0 bg-gradient-to-r from-[#25F4EE] via-[#000000] to-[#FE2C55] opacity-70"></div> */}
               <div className="relative z-10">
                 <h3 className="text-2xl font-bold text-white">TikTok</h3>
                 <p className="text-white/90">@Mestikawinata18</p>
@@ -853,9 +852,9 @@ const Home: React.FC = () => {
                 />
               </div>
               <a 
-                href="https://www.tiktok.com/@Mestikawinata18" 
+                href="https://www.tiktok.com/@mestikawinata18"                 
                 target="_blank" 
-                rel="noopener noreferrer"
+                rel="noopener noreferrer"                
                 className="w-full bg-black text-white py-3 px-6 rounded-lg font-medium flex items-center justify-center hover:bg-gray-800 transition-colors"
               >
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
