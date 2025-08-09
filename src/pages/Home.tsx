@@ -360,6 +360,7 @@ const Home: React.FC = () => {
   const [showPlayButton, setShowPlayButton] = useState(true);
   const [playingVideos, setPlayingVideos] = useState<{[key: number]: boolean}>({});
   const audioRef = useRef<HTMLAudioElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const sections = ['home', 'about', 'photography', 'videography', 'social', 'insights', 'collaborations', 'services', 'terms'];
 
   const handleVideoPlay = (videoId: number) => {
@@ -427,20 +428,20 @@ const Home: React.FC = () => {
     styleElement.textContent = fullpageStyles;
     document.head.appendChild(styleElement);
 
-    // Handle scroll events with Intersection Observer
-    const observerOptions = {
-      root: null,
-      rootMargin: '-50% 0px -50% 0px', // Trigger when section is in the middle of the viewport
-      threshold: 0
+    const container = containerRef.current;
+
+    // IntersectionObserver with the scroll container as root (Safari friendly)
+    const observerOptions: IntersectionObserverInit = {
+      root: container ?? null,
+      rootMargin: '0px',
+      threshold: 0.5
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.intersectionRatio > 0) {
-          const index = sections.findIndex(section => `#${section}` === `#${entry.target.id}`);
-          if (index !== -1) {
-            setCurrentSection(index);
-          }
+        if (entry.isIntersecting) {
+          const index = sections.findIndex(section => `#${section}` === `#${(entry.target as HTMLElement).id}`);
+          if (index !== -1) setCurrentSection(index);
         }
       });
     }, observerOptions);
@@ -448,24 +449,53 @@ const Home: React.FC = () => {
     // Observe all sections
     const sectionElements = sections
       .map(section => document.getElementById(section))
-      .filter((element): element is HTMLElement => element !== null);
-      
-    sectionElements.forEach(element => observer.observe(element));
-    
+      .filter((el): el is HTMLElement => el !== null);
+
+    sectionElements.forEach(el => observer.observe(el));
+
+    // Scroll fallback for Safari iOS (updates active dot based on closest section to viewport center)
+    const handleScroll = () => {
+      // Use window innerHeight since container is fixed to viewport
+      const viewportCenter = window.innerHeight / 2;
+      let bestIndex = 0;
+      let bestDelta = Number.POSITIVE_INFINITY;
+      for (let i = 0; i < sectionElements.length; i++) {
+        const rect = sectionElements[i].getBoundingClientRect();
+        const sectionCenter = rect.top + rect.height / 2;
+        const delta = Math.abs(sectionCenter - viewportCenter);
+        if (delta < bestDelta) {
+          bestDelta = delta;
+          bestIndex = i;
+        }
+      }
+      setCurrentSection(bestIndex);
+    };
+
+    // Attach scroll listener to the container if present
+    container?.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Initial sync
+    handleScroll();
+
     // Clean up
     return () => {
-      sectionElements.forEach(element => observer.unobserve(element));
+      sectionElements.forEach(el => observer.unobserve(el));
+      observer.disconnect();
+      container?.removeEventListener('scroll', handleScroll as EventListener);
       document.head.removeChild(styleElement);
     };
   }, []);
 
   const scrollToSection = (index: number) => {
+    const container = containerRef.current;
     const element = document.getElementById(sections[index]);
-    if (element) {
-      element.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'center'
-      });
+    if (!container || !element) return;
+
+    const top = element.offsetTop;
+    try {
+      container.scrollTo({ top, behavior: 'smooth' });
+    } catch {
+      container.scrollTop = top;
     }
   };
   // Add audio element (hidden)
@@ -513,7 +543,7 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="scroll-container">
+    <div ref={containerRef} className="scroll-container">
       {audioElement}
       {playButton}
       {muteButton}
